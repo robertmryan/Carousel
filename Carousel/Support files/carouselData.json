@@ -1,0 +1,26 @@
+[
+    {
+        "section": {
+            "id": 1,
+            "title": "First section",
+        },
+        "items": [
+            {
+                "id": 1,
+                "title": "First item",
+            },
+            {
+                "id": 2,
+                "title": "Second item",
+            },
+            {
+                "id": 3,
+                "title": "Third item",
+            },
+            {
+                "id": 4,
+                "title": "Fourth item",
+            },
+        ]
+    },
+]
