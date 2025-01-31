@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os.lock
 
 // MARK: - Realtime download state enumeration
 
@@ -32,10 +33,11 @@ extension CarouselViewController {
 // MARK: - Realtime download state
 
 extension CarouselViewController {
-    class Download: ObservableObject, Identifiable {
-        var id: Item.ID { item.id }
+    @MainActor
+    class Download: ObservableObject {
         let item: Item
-        @Published var state: DownloadState = .notStarted
+
+        @Published private(set) var state: DownloadState = .notStarted
 
         private var task: Task<Void, Never>?
 
@@ -53,7 +55,7 @@ extension CarouselViewController {
                 do {
                     for progress in 0..<100 {
                         state = .inProgress(Float(progress) / 100)
-                        try await Task.sleep(for: .seconds(1))
+                        try await Task.sleep(for: .seconds(0.1))
                     }
 
                     state = .finished
@@ -71,22 +73,5 @@ extension CarouselViewController {
             task?.cancel()
             task = nil
         }
-    }
-}
-
-// MARK: - CarouselViewController.Download: Equatable
-
-extension CarouselViewController.Download: Equatable {
-    static func == (lhs: CarouselViewController.Download, rhs: CarouselViewController.Download) -> Bool {
-        lhs.item == rhs.item && lhs.state == rhs.state
-    }
-}
-
-// MARK: - CarouselViewController.Download: Hashable
-
-extension CarouselViewController.Download: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(item)
-        hasher.combine(state)
     }
 }

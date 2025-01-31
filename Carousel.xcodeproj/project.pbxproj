@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		C46E38D32D4C169000B380F6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C46E38D22D4C169000B380F6 /* README.md */; };
+		C46E38F02D4C64EC00B380F6 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = C46E38EF2D4C64EC00B380F6 /* demo.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C46E38B02D4AB9F500B380F6 /* Carousel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carousel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C46E38D22D4C169000B380F6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C46E38D42D4C18FB00B380F6 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
+		C46E38EF2D4C64EC00B380F6 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -51,7 +52,7 @@
 		C46E38A72D4AB9F500B380F6 = {
 			isa = PBXGroup;
 			children = (
-				C46E38D42D4C18FB00B380F6 /* demo.gif */,
+				C46E38EF2D4C64EC00B380F6 /* demo.gif */,
 				C46E38D22D4C169000B380F6 /* README.md */,
 				C46E38B22D4AB9F500B380F6 /* Carousel */,
 				C46E38B12D4AB9F500B380F6 /* Products */,
@@ -131,6 +132,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C46E38D32D4C169000B380F6 /* README.md in Resources */,
+				C46E38F02D4C64EC00B380F6 /* demo.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +172,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.robertmryan.Carousel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -198,6 +201,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.robertmryan.Carousel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

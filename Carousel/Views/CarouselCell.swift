@@ -8,12 +8,7 @@
 import UIKit
 import Combine
 
-protocol SelfConfiguringCell {
-    static var reuseIdentifier: String { get }
-    func configure(with item: CarouselViewController.Download)
-}
-
-class CarouselCell: UICollectionViewCell, SelfConfiguringCell {
+class CarouselCell: UICollectionViewCell {
     static let reuseIdentifier: String = "carouselCell"
 
     private var downloadTask: AnyCancellable?
@@ -132,8 +127,8 @@ class CarouselCell: UICollectionViewCell, SelfConfiguringCell {
         animateScale(to: 1, duration: 0.38)
     }
 
-    func configure(with download: CarouselViewController.Download) {
-        title.text = download.item.title
+    func configure(with item: CarouselViewController.Item, download: CarouselViewController.Download) {
+        title.text = item.title
 
         downloadTask = download.$state
             .receive(on: DispatchQueue.main)

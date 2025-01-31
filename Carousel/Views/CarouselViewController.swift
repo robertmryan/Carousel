@@ -20,7 +20,7 @@ extension Bundle {
 
 class CarouselViewController: UIViewController {
     var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Download>?
+    var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     var carouselData: [CarouselData] = []    // the original JSON
     var downloads: [Item.ID: Download] = [:] // the downloads state
 
@@ -28,13 +28,13 @@ class CarouselViewController: UIViewController {
         super.viewDidLoad()
 
         setupCollectionView()
-//        setupScrollView()
         setupDownloadItems()
+        setupScrollView()
     }
 
-//    func setupScrollView() {
-//        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
-//    }
+    func setupScrollView() {
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: false)
+    }
 
     func setupDownloadItems() {
         carouselData = try! Bundle.main.decode([CarouselData].self, from: "carouselData.json")
@@ -49,26 +49,21 @@ class CarouselViewController: UIViewController {
     }
 
     func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Download>(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
-            self?.configure(CarouselCell.self, with: item, for: indexPath)
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { [weak self] collectionView, indexPath, item in
+            guard let self else { return nil }
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCell.reuseIdentifier, for: indexPath) as! CarouselCell
+            cell.configure(with: item, download: downloads[item.id]!)
+            return cell
         }
     }
 
-    func configure<T: SelfConfiguringCell>(_ cellType: T.Type, with item: Download, for indexPath: IndexPath) -> T {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else { fatalError("\(cellType)") }
-        cell.configure(with: item)
-        return cell
-    }
-
     func reloadData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Download>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
 
         for carousel in carouselData {
             snapshot.appendSections([carousel.section])
-            let downloads: [Download] = carousel.items.compactMap { item in
-                self.downloads[item.id]
-            }
-            snapshot.appendItems(downloads)
+            snapshot.appendItems(carousel.items)
         }
         dataSource?.apply(snapshot)
     }
@@ -105,8 +100,7 @@ class CarouselViewController: UIViewController {
             section.interGroupSpacing = 64
             section.orthogonalScrollingBehavior = .groupPagingCentered
             section.contentInsetsReference = .none
-            section.visibleItemsInvalidationHandler = { (items, offset, environment) in
-
+            section.visibleItemsInvalidationHandler = { items, offset, environment in
                 items.forEach { item in
                     let distanceFromCenter = abs((item.frame.midX - offset.x) - environment.container.contentSize.width / 2.0)
                     let minScale: CGFloat = 0.7
